@@ -1,5 +1,6 @@
 package de.bcxp.challenge;
 
+import de.bcxp.solution.Country;
 import de.bcxp.solution.CsvReader;
 import de.bcxp.solution.DataParser;
 import de.bcxp.solution.Weather;
@@ -11,7 +12,6 @@ import java.util.List;
 public final class App {
 
     public static void main(String[] args) {
-
         outputMinTemperatureSpread();
         outputMaxPopulationDensity();
     }
@@ -49,7 +49,7 @@ public final class App {
                 }
             }
 
-            System.out.printf("Day with smallest temperature spread: %s%n", dayWithLowestTempSpread);
+            System.out.printf("Day with smallest temperature spread: %s (%s degrees).%n ", dayWithLowestTempSpread, smallestTempSpread);
         }
     }
 
@@ -57,12 +57,25 @@ public final class App {
         // Read File
         List<String[]> data = readFile("src/main/resources/de/bcxp/challenge/countries.csv", ';');
         if (data != null) {
-            // TODO
-            //  read file
-            //  convert
-            //  output
-            String countryWithHighestPopulationDensity = "Some country"; // Your population density analysis function call …
-            System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);
+            // Parse data
+            DataParser parser = new DataParser();
+            List<Country> countryList = parser.convertToCountryType(data);
+
+            //Check tempearture spread of every day
+            String countryWithHigestDensity = "";
+            float highestPopDensity = countryList.get(0).getPopDensity();
+            float currentPopDensity;
+
+            for (Country country : countryList) {
+                currentPopDensity = country.getPopDensity();
+                //the smallest temp. spread is overwritten when the current temp. spread is smaller than its last value
+                if (currentPopDensity > highestPopDensity) {
+                    highestPopDensity = currentPopDensity;
+                    countryWithHigestDensity = country.getCountryName();
+                }
+            }
+
+            System.out.printf("Country with highest population density: %s%n (%f persons per km2).%n ", countryWithHigestDensity, highestPopDensity);
         }
     }
 }
