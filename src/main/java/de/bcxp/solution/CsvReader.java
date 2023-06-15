@@ -9,9 +9,10 @@ import java.io.FileReader;
 import java.util.List;
 
 public class CsvReader {
-    public List<String[]> read(File file, char separator) throws Exception {
+    public List<String[]> read(File file, char separator) {
         CSVReader reader = null;
         List<String[]> data = null;
+
         try {
             // Build reader
             reader = new CSVReaderBuilder(new FileReader(file))
@@ -22,18 +23,14 @@ public class CsvReader {
 
             // Read file and save data
             data = reader.readAll();
-        } catch (Exception e) {
 
-
-        } finally {
             // close reader
             if (reader != null) {
                 reader.close();
             }
+        } catch (Exception e) {
+            System.out.printf("Error reading file. Error message: %s\n", e.getMessage());
         }
-
         return data;
     }
-
-    //TODO maybe implement interface for file reader (?)
 }

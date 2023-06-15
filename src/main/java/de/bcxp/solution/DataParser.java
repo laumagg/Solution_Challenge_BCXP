@@ -1,7 +1,5 @@
 package de.bcxp.solution;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class DataParser {
                 Weather weather = new Weather(day, maxTemp, minTemp);
                 convertedData.add(weather);
             } catch (NumberFormatException e) {
-                System.out.printf("Error parsing CSV. Stopped at line: %s%n", i);
+                System.out.printf("NumberFormatException while parsing CSV at line: %s%n", i);
             }
         }
 
@@ -38,7 +36,7 @@ public class DataParser {
                 Country country = new Country(data.get(i)[0], population, area);
                 convertedData.add(country);
             } catch (NumberFormatException e) {
-                System.out.printf("Error parsing CSV. Problem at line: %s%n", i);
+                System.out.printf("NumberFormatException parsing CSV at line: %s.%n", i);
             }
         }
 
@@ -52,6 +50,4 @@ public class DataParser {
             throw e;
         }
     }
-
-
 }

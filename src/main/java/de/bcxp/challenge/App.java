@@ -22,7 +22,7 @@ public final class App {
         try {
             data = reader.read(new File(path), separator);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.printf("Couldn't read file");
         }
         return data;
     }
@@ -68,14 +68,14 @@ public final class App {
 
             for (Country country : countryList) {
                 currentPopDensity = country.getPopDensity();
-                //the smallest temp. spread is overwritten when the current temp. spread is smaller than its last value
+                //the highest pop. density is overwritten when the current one is higher than its last highest value
                 if (currentPopDensity > highestPopDensity) {
                     highestPopDensity = currentPopDensity;
                     countryWithHigestDensity = country.getCountryName();
                 }
             }
 
-            System.out.printf("Country with highest population density: %s%n (%f persons per km2).%n ", countryWithHigestDensity, highestPopDensity);
+            System.out.printf("Country with highest population density: %s (%f persons per km2).%n ", countryWithHigestDensity, highestPopDensity);
         }
     }
 }
