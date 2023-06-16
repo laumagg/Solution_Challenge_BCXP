@@ -1,4 +1,4 @@
-# Solution of Programming Challenge from BCXP
+# Solution of Programming Challenge of BCXP
 **Classes:** 
 - _Country_ and _Weather_ as data containers
 - _CsvReader_ to read data from CSV files 
