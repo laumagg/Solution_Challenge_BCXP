@@ -33,7 +33,7 @@ public final class App {
         for (Weather weather : weatherList) {
             currentTempSpread = weather.getTemperatureSpread();
             //the smallest temp. spread is overwritten when the current temp. spread is smaller than its last value
-            if (currentTempSpread < smallestTempSpread) {
+            if (currentTempSpread <= smallestTempSpread) {
                 smallestTempSpread = currentTempSpread;
                 dayWithLowestTempSpread = weather.getDay();
             }
@@ -68,7 +68,7 @@ public final class App {
         for (Country country : countryList) {
             currentPopDensity = country.getPopDensity();
             //the highest pop. density is overwritten when the current one is higher than its last highest value
-            if (currentPopDensity > highestPopDensity) {
+            if (currentPopDensity >= highestPopDensity) {
                 highestPopDensity = currentPopDensity;
                 countryWithHighestDensity = country.getCountryName();
             }
@@ -84,10 +84,10 @@ public final class App {
             DataParser parser = new DataParser();
             List<Country> countryList = parser.convertToCountryType(data);
 
+            //Check which country has the highest population density
             if (countryList.size() > 0) {
                 System.out.printf("Country with highest population density: %s.%n ",
                         getCountryWithHighestPopulationDensity(countryList));
-
             }
             else {
                 System.out.printf("Error while parsing. Countries list is empty.");
