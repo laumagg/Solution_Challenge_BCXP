@@ -25,9 +25,8 @@ public class CsvReader {
             data = reader.readAll();
 
             // close reader
-            if (reader != null) {
-                reader.close();
-            }
+            reader.close();
+
         } catch (Exception e) {
             System.out.printf("Error reading file. Error message: %s\n", e.getMessage());
         }

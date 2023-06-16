@@ -1,12 +1,8 @@
 package de.bcxp.challenge;
 
-import de.bcxp.solution.Country;
-import de.bcxp.solution.CsvReader;
-import de.bcxp.solution.DataParser;
-import de.bcxp.solution.Weather;
+import de.bcxp.solution.*;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
 public final class App {
@@ -27,6 +23,25 @@ public final class App {
         return data;
     }
 
+    public static int getDayWithSmallestTemperatureSpread(List<Weather> weatherList) {
+
+        //Check temperature spread of every day
+        int dayWithLowestTempSpread = 0;
+        int smallestTempSpread = weatherList.get(0).getTemperatureSpread();
+        int currentTempSpread;
+
+        for (Weather weather : weatherList) {
+            currentTempSpread = weather.getTemperatureSpread();
+            //the smallest temp. spread is overwritten when the current temp. spread is smaller than its last value
+            if (currentTempSpread < smallestTempSpread) {
+                smallestTempSpread = currentTempSpread;
+                dayWithLowestTempSpread = weather.getDay();
+            }
+        }
+
+        return dayWithLowestTempSpread;
+    }
+
     private static void outputMinTemperatureSpread() {
         // Read File
         List<String[]> data = readFile("src/main/resources/de/bcxp/challenge/weather.csv", ',');
@@ -35,22 +50,30 @@ public final class App {
             DataParser parser = new DataParser();
             List<Weather> weatherList = parser.convertToWeatherType(data);
 
-            //Check tempearture spread of every day
-            int dayWithLowestTempSpread = 0;
-            int smallestTempSpread = weatherList.get(0).getTemperatureSpread();
-            int currentTempSpread;
-
-            for (Weather weather : weatherList) {
-                currentTempSpread = weather.getTemperatureSpread();
-                //the smallest temp. spread is overwritten when the current temp. spread is smaller than its last value
-                if (currentTempSpread < smallestTempSpread) {
-                    smallestTempSpread = currentTempSpread;
-                    dayWithLowestTempSpread = weather.getDay();
-                }
+            if (weatherList.size() > 0) {
+                System.out.printf("Day with smallest temperature spread: %s.%n ",
+                        getDayWithSmallestTemperatureSpread(weatherList));
+            } else {
+                System.out.printf("Error while parsing. Weather list is empty.");
             }
-
-            System.out.printf("Day with smallest temperature spread: %s (%s degrees).%n ", dayWithLowestTempSpread, smallestTempSpread);
         }
+    }
+
+    public static String getCountryWithHighestPopulationDensity(List<Country> countryList) {
+        //Check country with the highest density
+        String countryWithHighestDensity = "";
+        float highestPopDensity = countryList.get(0).getPopDensity();
+        float currentPopDensity;
+
+        for (Country country : countryList) {
+            currentPopDensity = country.getPopDensity();
+            //the highest pop. density is overwritten when the current one is higher than its last highest value
+            if (currentPopDensity > highestPopDensity) {
+                highestPopDensity = currentPopDensity;
+                countryWithHighestDensity = country.getCountryName();
+            }
+        }
+        return countryWithHighestDensity;
     }
 
     private static void outputMaxPopulationDensity() {
@@ -61,21 +84,16 @@ public final class App {
             DataParser parser = new DataParser();
             List<Country> countryList = parser.convertToCountryType(data);
 
-            //Check tempearture spread of every day
-            String countryWithHigestDensity = "";
-            float highestPopDensity = countryList.get(0).getPopDensity();
-            float currentPopDensity;
+            if (countryList.size() > 0) {
+                System.out.printf("Country with highest population density: %s.%n ",
+                        getCountryWithHighestPopulationDensity(countryList));
 
-            for (Country country : countryList) {
-                currentPopDensity = country.getPopDensity();
-                //the highest pop. density is overwritten when the current one is higher than its last highest value
-                if (currentPopDensity > highestPopDensity) {
-                    highestPopDensity = currentPopDensity;
-                    countryWithHigestDensity = country.getCountryName();
-                }
+            }
+            else {
+                System.out.printf("Error while parsing. Countries list is empty.");
             }
 
-            System.out.printf("Country with highest population density: %s (%f persons per km2).%n ", countryWithHigestDensity, highestPopDensity);
+
         }
     }
 }
